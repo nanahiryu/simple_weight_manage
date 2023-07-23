@@ -1,5 +1,7 @@
-import { User } from "@/types/user";
-import { DocumentData, FirestoreDataConverter } from "firebase/firestore";
+import { DocumentData, FirestoreDataConverter } from 'firebase/firestore';
+
+import { User } from '@/types/user';
+import { Target } from '@/types/target';
 
 export const UserConverter: FirestoreDataConverter<User> = {
   toFirestore(user: User): DocumentData {
@@ -8,15 +10,17 @@ export const UserConverter: FirestoreDataConverter<User> = {
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
+      targetList: user.targetList,
     };
   },
   fromFirestore(snapshot, options) {
     const data = snapshot.data(options);
     return {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      createdAt: data.createdAt,
+      id: data.id as string,
+      name: data.name as string,
+      email: data.email as string,
+      createdAt: data.createdAt as number,
+      targetList: data.targetList as Target[],
     };
   },
 };
