@@ -1,5 +1,5 @@
 import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
-import { auth, db } from "@/firebase/client";
+import { auth, firestore } from "@/firebase/client";
 import { userAtom } from "@/globalState/user";
 import { useAtom } from "jotai";
 
@@ -22,7 +22,7 @@ const AuthProvider = (props: Props) => {
   const setCurrentUserFunc = async (authUser: AuthUser | null) => {
     if (authUser) {
       // userがfirestoreのusersコレクションに存在するか確認し,存在しなければ作成する
-      const userRef = doc(db, "users", authUser.uid).withConverter(
+      const userRef = doc(firestore, "users", authUser.uid).withConverter(
         UserConverter
       );
       const userSnapShot = await getDoc(userRef);

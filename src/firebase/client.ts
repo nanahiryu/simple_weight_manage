@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
 const ENV = process.env.NEXT_PUBLIC_ENV ?? "";
 
@@ -57,10 +58,18 @@ export const initStorage = () => {
   return storage;
 };
 
+export const initFunctions = () => {
+  const functions = getFunctions(app, "asia-northeast1");
+  if (isEmulating) {
+    connectFunctionsEmulator(functions, "localhost", 5001);
+  }
+  return functions;
+};
+
 export const firestore = initFirestore();
 export const auth = initAuth();
 export const storage = initStorage();
+export const functions = initFunctions();
 
 // 他ファイルで使うために機能をエクスポート
 export const analytics = getAnalytics();
-export const db = firestore;
