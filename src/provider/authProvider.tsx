@@ -30,7 +30,6 @@ const AuthProvider = (props: Props) => {
           name: authUser.displayName ?? '',
           email: authUser.email ?? '',
           createdAt: Date.now(),
-          targetList: [],
         };
         console.log(_newUser);
         await setDoc(userRef, _newUser);
