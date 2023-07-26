@@ -5,13 +5,16 @@ import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { useAtomValue } from 'jotai';
 
 import { loginWithEmail, loginWithGoogle, signupWithEmail } from '@/function/auth';
 import { CardBase } from '@/components/card';
 import { useErrorToast } from '@/hooks/useErrorToast';
+import { userAtom } from '@/globalState/user';
 
 const SignInPage = () => {
+  const user = useAtomValue(userAtom);
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
   const { register, getValues } = useForm({
     defaultValues: {
@@ -61,6 +64,10 @@ const SignInPage = () => {
       });
     }
   };
+
+  if (user) {
+    redirect('/dashboard');
+  }
 
   return (
     <Flex align="center" justify="center" p="120px">
