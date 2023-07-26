@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { userAtom } from '@/globalState/user';
 import { formatDateNumToString } from '@/function/day';
-import { createWeighLog, fetchWeighLogList } from '@/function/weighLog';
+import { createWeighLog, fetchWeighLogList, updateWeighLog } from '@/function/weighLog';
 import { useErrorToast } from '@/hooks/useErrorToast';
 import { useSuccessToast } from '@/hooks/useSuccessToast';
 
@@ -32,13 +32,12 @@ const ReportPage = () => {
   const fetchDisplayData = async () => {
     if (!user) return;
     const _weighLogList = await fetchWeighLogList(user.id);
-    console.log(_weighLogList);
   };
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!user) return;
       const _weighDate = new Date(data.weighDate).getTime();
-      const _newWeightLog = {
+      const _newWeighLog = {
         id: '',
         weight: data.weight ?? 0,
         fatPercentage: data.fatPercentage ?? 0,
@@ -46,7 +45,22 @@ const ReportPage = () => {
         createdAt: Date.now(),
         updatedAt: Date.now(),
       };
-      await createWeighLog(user.id, _newWeightLog);
+      // 同じ日付で登録されているデータがあるか確認する
+      // 存在すれば上書き, 存在しなければ新規作成する
+      const _weighLogList = await fetchWeighLogList(user.id);
+      const _sameDayWeighLog = _weighLogList.find((weighLog) => weighLog.weighDate === _weighDate);
+      if (_sameDayWeighLog) {
+        if (!window.confirm('同じ日付で登録されているデータがあります。上書きしますか？')) return;
+
+        const _updatedWeighLog = {
+          ..._newWeighLog,
+          id: _sameDayWeighLog.id,
+          createdAt: _sameDayWeighLog.createdAt,
+        };
+        await updateWeighLog(user.id, _updatedWeighLog);
+      } else {
+        await createWeighLog(user.id, _newWeighLog);
+      }
       successToast({
         title: '登録完了',
         description: '体重・体脂肪率の登録が完了しました',
