@@ -79,14 +79,14 @@ const ReportPage = () => {
       <Flex align="center" direction="column">
         <VStack w="full" spacing="40px">
           <FormControl as={Flex} direction="column" w="full" isInvalid={!!errors.weighDate}>
-            <Text fontSize="lg" fontWeight="normal">
+            <Text fontSize="lg" fontWeight="semibold" color="gray.600">
               計測した日付
             </Text>
             <Input type="date" size="md" variant="outline" {...register('weighDate')} />
             {errors.weighDate && <FormErrorMessage>{errors.weighDate.message}</FormErrorMessage>}
           </FormControl>
           <FormControl as={Flex} direction="column" w="full" isInvalid={!!errors.weight}>
-            <Text fontSize="lg" fontWeight="normal">
+            <Text fontSize="lg" fontWeight="semibold" color="gray.600">
               体重(kg)
             </Text>
             <Input
@@ -101,7 +101,7 @@ const ReportPage = () => {
             {errors.weight && <FormErrorMessage>{errors.weight.message}</FormErrorMessage>}
           </FormControl>
           <FormControl as={Flex} direction="column" w="full" isInvalid={!!errors.fatPercentage}>
-            <Text fontSize="lg" fontWeight="normal">
+            <Text fontSize="lg" fontWeight="semibold" color="gray.600">
               体脂肪率(%)
             </Text>
             <Input
