@@ -6,7 +6,7 @@ import { FaWeight } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
 
-import { logout } from '@/lib/auth';
+import { logout } from '@/function/auth';
 
 export const Header = () => {
   return (

@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 // 必要な機能をインポート
-import { getAnalytics } from 'firebase/analytics';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 import { Firestore, connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage } from 'firebase/storage';
 import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
@@ -67,4 +67,4 @@ export const storage = initStorage();
 export const functions = initFunctions();
 
 // 他ファイルで使うために機能をエクスポート
-export const analytics = getAnalytics();
+export const analytics = isSupported().then((yes) => (yes ? getAnalytics(app) : null));

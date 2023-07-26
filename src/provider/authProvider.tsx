@@ -42,7 +42,6 @@ const AuthProvider = (props: Props) => {
       } else {
         setCurrentUser(userSnapShot.data());
       }
-      void router.push(`/dashboard`);
     } else {
       setCurrentUser(null);
       void router.push(`/signin`);
@@ -51,8 +50,9 @@ const AuthProvider = (props: Props) => {
 
   useEffect(() => {
     // authの情報が変更されたらsetCurrentUserFuncを実行する
-    onAuthStateChanged(auth, (authUser) => void setCurrentUserFunc(authUser));
-  }, [router]);
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => void setCurrentUserFunc(authUser));
+    return () => unsubscribe();
+  }, []);
 
   return <>{props.children}</>;
 };

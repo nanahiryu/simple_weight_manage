@@ -5,9 +5,11 @@ import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { loginWithEmail, loginWithGoogle, signupWithEmail } from '@/lib/auth';
+import { loginWithEmail, loginWithGoogle, signupWithEmail } from '@/function/auth';
 import { CardBase } from '@/components/card';
+import { useErrorToast } from '@/hooks/useErrorToast';
 
 const SignInPage = () => {
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
@@ -17,14 +19,47 @@ const SignInPage = () => {
       password: '',
     },
   });
+  const router = useRouter();
+  const errorToast = useErrorToast();
   const onSignUp = async () => {
-    const data = getValues();
-    await signupWithEmail(data.email, data.password);
+    try {
+      const data = getValues();
+      await signupWithEmail(data.email, data.password);
+      router.push('/dashboard');
+    } catch (e) {
+      const error = e as Error;
+      errorToast({
+        title: 'エラーが発生しました',
+        description: error.message,
+      });
+    }
   };
 
   const onSignIn = async () => {
-    const data = getValues();
-    await loginWithEmail(data.email, data.password);
+    try {
+      const data = getValues();
+      await loginWithEmail(data.email, data.password);
+      router.push('/dashboard');
+    } catch (e) {
+      const error = e as Error;
+      errorToast({
+        title: 'エラーが発生しました',
+        description: error.message,
+      });
+    }
+  };
+
+  const onGoogleSignIn = async () => {
+    try {
+      await loginWithGoogle();
+      router.push('/dashboard');
+    } catch (e) {
+      const error = e as Error;
+      errorToast({
+        title: 'エラーが発生しました',
+        description: error.message,
+      });
+    }
   };
 
   return (
@@ -39,11 +74,11 @@ const SignInPage = () => {
               <Text fontSize="lg" fontWeight="semibold">
                 email
               </Text>
-              <Input w="360px" {...register('email')} bg="white" />
+              <Input w="360px" variant="outline" {...register('email')} bg="white" />
               <Text fontSize="lg" fontWeight="semibold">
                 password
               </Text>
-              <Input w="360px" {...register('password')} bg="white" />
+              <Input w="360px" variant="outline" {...register('password')} bg="white" />
             </VStack>
             {isSignIn ? (
               <Button colorScheme="teal" onClick={() => void onSignIn()}>
@@ -69,7 +104,7 @@ const SignInPage = () => {
           </VStack>
         </CardBase>
 
-        <Button onClick={() => void loginWithGoogle()}>
+        <Button onClick={() => void onGoogleSignIn()}>
           <Icon as={FaGoogle as IconType} mr="2" />
           <Text>sign in/up with google</Text>
         </Button>
