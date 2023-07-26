@@ -7,7 +7,7 @@ interface CardProps extends FlexProps {
 export const CardBase = (props: CardProps) => {
   const { children, ...rest } = props;
   return (
-    <Flex bg="#f8f8f8" borderRadius="md" p="12px" boxShadow="md" {...rest}>
+    <Flex bg="gray.100" borderRadius="md" p="12px" boxShadow="md" {...rest}>
       {children}
     </Flex>
   );
