@@ -6,6 +6,8 @@ import { useAtomValue } from 'jotai';
 import { userAtom } from '@/globalState/user';
 import { CardBase } from '@/components/card';
 
+import { ChartField } from './chartField';
+
 const DashBoardPage = () => {
   const user = useAtomValue(userAtom);
   return (
@@ -18,8 +20,11 @@ const DashBoardPage = () => {
           <Text>体脂肪率</Text>
         </CardBase>
       </Flex>
-      <CardBase w="full" h="400px">
-        <Text>グラフ</Text>
+      <CardBase w="full" align="center" justify="center" direction="column">
+        <Text fontSize="lg" fontWeight="semibold">
+          推移グラフ
+        </Text>
+        <ChartField />
       </CardBase>
     </Flex>
   );
