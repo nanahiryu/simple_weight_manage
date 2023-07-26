@@ -4,19 +4,14 @@ import { WeighLog } from '@/types/weighLog';
 
 export const WeighLogConverter: FirestoreDataConverter<WeighLog> = {
   toFirestore(weighLog: WeighLog): DocumentData {
-    return {
-      id: weighLog.id,
-      weight: weighLog.weight,
-      fatPercentage: weighLog.fatPercentage,
-      weighDate: weighLog.weighDate,
-      createdAt: weighLog.createdAt,
-      updatedAt: weighLog.updatedAt,
-    };
+    const _newDoc: Partial<WeighLog> = { ...weighLog };
+    delete _newDoc.id;
+    return _newDoc;
   },
   fromFirestore(snapshot, options) {
     const data = snapshot.data(options);
     return {
-      id: data.id as string,
+      id: snapshot.id,
       weight: data.weight as number,
       fatPercentage: data.fatPercentage as number,
       weighDate: data.weighDate as number,
