@@ -3,7 +3,6 @@
 import { Button, Flex, FormControl, FormErrorMessage, Input, Text, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { userAtom } from '@/globalState/user';
@@ -29,10 +28,7 @@ const ReportPage = () => {
   const errorToast = useErrorToast();
   const successToast = useSuccessToast();
   const router = useRouter();
-  const fetchDisplayData = async () => {
-    if (!user) return;
-    const _weighLogList = await fetchWeighLogList(user.id);
-  };
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!user) return;
@@ -74,9 +70,7 @@ const ReportPage = () => {
       });
     }
   });
-  useEffect(() => {
-    void fetchDisplayData();
-  }, [user]);
+
   return (
     <Flex direction="column" w="50%" py="60px" gap="60px">
       <Text fontSize="2xl" fontWeight="semibold">
