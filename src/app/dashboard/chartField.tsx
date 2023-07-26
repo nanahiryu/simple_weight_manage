@@ -58,6 +58,8 @@ export const ChartField = () => {
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgba(255, 99, 132, 0.2)',
         spanGaps: true,
+        tension: 0.2,
+        pointRadius: 5,
       },
       {
         label: '体脂肪率(%)',
@@ -66,12 +68,12 @@ export const ChartField = () => {
         backgroundColor: 'rgb(54, 162, 235)',
         borderColor: 'rgba(54, 162, 235, 0.2)',
         spanGaps: true,
+        tension: 0.2,
+        pointRadius: 5,
       },
     ];
     setLabels(_labels);
     setDatasets(_datasets);
-    console.log(_labels);
-    console.log(_datasets);
   };
 
   useEffect(() => {
