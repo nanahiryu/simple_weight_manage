@@ -14,13 +14,17 @@ const DashBoardPage = () => {
     <Flex direction="column" w="70%" py="60px" gap="40px">
       <Flex gap="40px">
         <CardBase w="full" h="200px">
-          <Text>体重</Text>
+          <Text fontSize="lg" fontWeight="semibold">
+            体重
+          </Text>
         </CardBase>
         <CardBase w="full" h="200px">
-          <Text>体脂肪率</Text>
+          <Text fontSize="lg" fontWeight="semibold">
+            体脂肪率
+          </Text>
         </CardBase>
       </Flex>
-      <CardBase w="full" align="center" justify="center" direction="column">
+      <CardBase w="full" justify="center" direction="column">
         <Text fontSize="lg" fontWeight="semibold">
           推移グラフ
         </Text>
