@@ -3,6 +3,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { userAtom } from '@/globalState/user';
 import { CardBase } from '@/components/card';
@@ -10,12 +11,12 @@ import { fetchTargetList } from '@/function/target';
 import { Target } from '@/types/target';
 import { formatDateNumToString } from '@/function/day';
 
-import { ChartField } from './chartField';
-
 const DashBoardPage = () => {
   const user = useAtomValue(userAtom);
   const [weightTarget, setWeightTarget] = useState<Target | undefined>(undefined);
   const [fatPercentageTarget, setFatPercentageTarget] = useState<Target | undefined>(undefined);
+
+  const DynamicChartField = dynamic(() => import('./chartField'), { ssr: false });
 
   const fetchDisplayData = async () => {
     if (!user) return;
@@ -50,7 +51,7 @@ const DashBoardPage = () => {
         <Text fontSize="lg" fontWeight="semibold">
           推移グラフ
         </Text>
-        <ChartField />
+        <DynamicChartField />
       </CardBase>
     </Flex>
   );

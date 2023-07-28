@@ -23,7 +23,7 @@ import { formatNumTimeToMonthDay } from '@/function/day';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export const ChartField = () => {
+const ChartField = () => {
   const user = useAtomValue(userAtom);
   const [labels, setLabels] = useState<string[]>([]);
   const [datasets, setDatasets] = useState<ChartDataset<'line'>[]>([]);
@@ -99,3 +99,5 @@ export const ChartField = () => {
     </Flex>
   );
 };
+
+export default ChartField;
