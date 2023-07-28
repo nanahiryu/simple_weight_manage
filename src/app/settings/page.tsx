@@ -10,12 +10,15 @@ import { CardBase } from '@/components/card';
 import { createTarget, fetchTargetList, updateTarget } from '@/function/target';
 import { formatDateNumToString } from '@/function/day';
 import { Target } from '@/types/target';
+import { useLoading } from '@/hooks/useLoading';
 
 const SettingsPage = () => {
   const user = useAtomValue(userAtom);
   const [prevTargetList, setPrevTargetList] = useState<Target[]>([]);
   const [isWeightEditing, setIsWeightEditing] = useState<boolean>(true);
-  const [isFatPercentageEditing, setIsFatPercentageEditing] = useState<boolean>(false);
+  const [isFatPercentageEditing, setIsFatPercentageEditing] = useState<boolean>(true);
+
+  const { isLoading, startLoading, endLoading } = useLoading();
 
   const useFormMethod = useForm({
     defaultValues: {
@@ -123,6 +126,7 @@ const SettingsPage = () => {
         <Button
           colorScheme="teal"
           isDisabled={!isWeightEditing && !isFatPercentageEditing}
+          isLoading={isLoading}
           onClick={() => void onSubmit()}
         >
           変更を保存
@@ -169,6 +173,7 @@ interface TargetCardProps {
 const TargetCard = (props: TargetCardProps) => {
   const { isEditing, setIsEditing, dateInputName, valueInputName, isUpperInputName, targetTitle, unitName } = props;
   const { register, watch, setValue } = useFormContext();
+  const { isLoading } = useLoading();
   return (
     <CardBase w="full" h="120px" direction="column">
       <Flex w="full" align="center">
@@ -184,6 +189,7 @@ const TargetCard = (props: TargetCardProps) => {
             ml="20px"
             size="lg"
             colorScheme="teal"
+            isDisabled={isLoading}
             isChecked={isEditing}
             onChange={() => setIsEditing(!isEditing)}
           />
@@ -198,7 +204,7 @@ const TargetCard = (props: TargetCardProps) => {
             bg="white"
             w="240px"
             variant="outline"
-            isDisabled={!isEditing}
+            isDisabled={!isEditing || isLoading}
             {...register(dateInputName)}
           />
         </FormControl>
@@ -212,7 +218,7 @@ const TargetCard = (props: TargetCardProps) => {
             bg="white"
             w="120px"
             variant="outline"
-            isDisabled={!isEditing}
+            isDisabled={!isEditing || isLoading}
             {...register(valueInputName, {
               required: '体重を入力してください',
               valueAsNumber: true || '数値を入力してください',
@@ -229,11 +235,11 @@ const TargetCard = (props: TargetCardProps) => {
             fontSize="lg"
             w="120px"
             bg="white"
+            isDisabled={!isEditing || isLoading}
             value={watch(isUpperInputName) as string}
             onChange={(e) => {
               setValue('weightIsUpper', e.target.value);
             }}
-            isDisabled={!isEditing}
           >
             <option value={'true'}>以上</option>
             <option value={'false'}>以下</option>
