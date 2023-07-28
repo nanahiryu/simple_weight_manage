@@ -11,6 +11,7 @@ import { createTarget, fetchTargetList, updateTarget } from '@/function/target';
 import { formatDateNumToString } from '@/function/day';
 import { Target } from '@/types/target';
 import { useLoading } from '@/hooks/useLoading';
+import { useErrorToast } from '@/hooks/useErrorToast';
 
 const SettingsPage = () => {
   const user = useAtomValue(userAtom);
@@ -18,6 +19,7 @@ const SettingsPage = () => {
   const [isWeightEditing, setIsWeightEditing] = useState<boolean>(true);
   const [isFatPercentageEditing, setIsFatPercentageEditing] = useState<boolean>(true);
 
+  const errorToast = useErrorToast();
   const { isLoading, startLoading, endLoading } = useLoading();
 
   const useFormMethod = useForm({
@@ -44,54 +46,65 @@ const SettingsPage = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    if (!user) return;
-    const _weightTargetDeadline = new Date(data.weightDeadline).getTime();
-    const _fatPercentageTargetDeadline = new Date(data.fatPercentageDeadline).getTime();
-    const _newWeightTarget: Target = {
-      id: '',
-      type: 'weight',
-      targetValue: data.weight,
-      deadlineDate: _weightTargetDeadline,
-      isUpper: data.weightIsUpper === 'true' ? true : false,
-    };
-    const _newFatPercentageTarget: Target = {
-      id: '',
-      type: 'fatPercentage',
-      targetValue: data.fatPercentage,
-      deadlineDate: _fatPercentageTargetDeadline,
-      isUpper: data.fatPercentageIsUpper === 'true' ? true : false,
-    };
-    const _prevWeightTarget: Target | undefined = prevTargetList.find((target) => target.type === 'weight');
-    const _prevFatPercentageTarget: Target | undefined = prevTargetList.find(
-      (target) => target.type === 'fatPercentage',
-    );
+    try {
+      if (!user) return;
+      startLoading();
+      const _weightTargetDeadline = new Date(data.weightDeadline).getTime();
+      const _fatPercentageTargetDeadline = new Date(data.fatPercentageDeadline).getTime();
+      const _newWeightTarget: Target = {
+        id: '',
+        type: 'weight',
+        targetValue: data.weight,
+        deadlineDate: _weightTargetDeadline,
+        isUpper: data.weightIsUpper === 'true' ? true : false,
+      };
+      const _newFatPercentageTarget: Target = {
+        id: '',
+        type: 'fatPercentage',
+        targetValue: data.fatPercentage,
+        deadlineDate: _fatPercentageTargetDeadline,
+        isUpper: data.fatPercentageIsUpper === 'true' ? true : false,
+      };
+      const _prevWeightTarget: Target | undefined = prevTargetList.find((target) => target.type === 'weight');
+      const _prevFatPercentageTarget: Target | undefined = prevTargetList.find(
+        (target) => target.type === 'fatPercentage',
+      );
 
-    // Weightの更新, 新規作成
-    if (isWeightEditing && isTargetChangedOrNew(_prevWeightTarget, _newWeightTarget)) {
-      if (_prevWeightTarget) {
-        // 更新
-        if (window.confirm('体重の目標を更新しますか？')) {
-          _newWeightTarget.id = _prevWeightTarget.id;
-          await updateTarget(user.id, _newWeightTarget);
+      // Weightの更新, 新規作成
+      if (isWeightEditing && isTargetChangedOrNew(_prevWeightTarget, _newWeightTarget)) {
+        if (_prevWeightTarget) {
+          // 更新
+          if (window.confirm('体重の目標を更新しますか？')) {
+            _newWeightTarget.id = _prevWeightTarget.id;
+            await updateTarget(user.id, _newWeightTarget);
+          }
+        } else {
+          // 新規作成
+          await createTarget(user.id, _newWeightTarget);
         }
-      } else {
-        // 新規作成
-        await createTarget(user.id, _newWeightTarget);
       }
-    }
 
-    // fatPercentageの更新, 新規作成
-    if (isFatPercentageEditing && isTargetChangedOrNew(_prevFatPercentageTarget, _newFatPercentageTarget)) {
-      if (_prevFatPercentageTarget) {
-        // 更新
-        if (window.confirm('体脂肪率の目標を更新しますか？')) {
-          _newFatPercentageTarget.id = _prevFatPercentageTarget.id;
-          await updateTarget(user.id, _newFatPercentageTarget);
+      // fatPercentageの更新, 新規作成
+      if (isFatPercentageEditing && isTargetChangedOrNew(_prevFatPercentageTarget, _newFatPercentageTarget)) {
+        if (_prevFatPercentageTarget) {
+          // 更新
+          if (window.confirm('体脂肪率の目標を更新しますか？')) {
+            _newFatPercentageTarget.id = _prevFatPercentageTarget.id;
+            await updateTarget(user.id, _newFatPercentageTarget);
+          }
+        } else {
+          // 新規作成
+          await createTarget(user.id, _newFatPercentageTarget);
         }
-      } else {
-        // 新規作成
-        await createTarget(user.id, _newFatPercentageTarget);
       }
+    } catch (e) {
+      const error = e as Error;
+      errorToast({
+        title: 'エラーが発生しました',
+        description: error.message,
+      });
+    } finally {
+      endLoading();
     }
   });
 
