@@ -81,7 +81,7 @@ const TargetField = ({ target }: { target?: Target }) => {
           </Text>
           <Text fontSize="2xl" fontWeight="semibold" color="gray.600">
             {target.type === 'weight' ? 'kg' : '％'}
-            {target.isUpper ? 'まで落とす！' : 'まで増やす！'}
+            {target.isUpper ? 'まで増やす！' : 'まで落とす！'}
           </Text>
         </Flex>
       </Flex>

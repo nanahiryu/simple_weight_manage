@@ -18,14 +18,15 @@ const SettingsPage = () => {
     defaultValues: {
       weightDeadline: formatDateNumToString(new Date().getTime()),
       weight: 0,
-      weightIsUpper: false,
+      weightIsUpper: 'false',
       fatPercentageDeadline: formatDateNumToString(new Date().getTime()),
       fatPercentage: 0,
-      fatPercentageIsUpper: false,
+      fatPercentageIsUpper: 'false',
     },
   });
   const onSubmit = handleSubmit(async (data) => {
     if (!user) return;
+    console.log('date: ', data);
     const _weightTargetDeadline = new Date(data.weightDeadline).getTime();
     const _fatPercentageTargetDeadline = new Date(data.fatPercentageDeadline).getTime();
     const _newWeightTarget: Target = {
@@ -33,19 +34,23 @@ const SettingsPage = () => {
       type: 'weight',
       targetValue: data.weight,
       deadlineDate: _weightTargetDeadline,
-      isUpper: data.weightIsUpper,
+      isUpper: data.weightIsUpper === 'true' ? true : false,
     };
     const _newFatPercentageTarget: Target = {
       id: '',
       type: 'fatPercentage',
       targetValue: data.fatPercentage,
       deadlineDate: _fatPercentageTargetDeadline,
-      isUpper: data.fatPercentageIsUpper,
+      isUpper: data.fatPercentageIsUpper === 'true' ? true : false,
     };
     const _prevWeightTarget: Target | undefined = prevTargetList.find((target) => target.type === 'weight');
     const _prevFatPercentageTarget: Target | undefined = prevTargetList.find(
       (target) => target.type === 'fatPercentage',
     );
+    console.log('isUpper: ', data.weightIsUpper);
+    console.log('isUpper: ', data.fatPercentageIsUpper);
+    console.log('prev weight: ', _prevWeightTarget);
+    console.log('prev fat percentage: ', _prevFatPercentageTarget);
     // Weightの更新, 新規作成
     if (_prevWeightTarget) {
       // 更新
@@ -80,10 +85,10 @@ const SettingsPage = () => {
     reset({
       weightDeadline: formatDateNumToString(_weightTarget?.deadlineDate ?? new Date().getTime()),
       weight: _weightTarget?.targetValue,
-      weightIsUpper: _weightTarget?.isUpper,
+      weightIsUpper: _weightTarget?.isUpper ? 'true' : 'false',
       fatPercentageDeadline: formatDateNumToString(_fatPercentageTarget?.deadlineDate ?? new Date().getTime()),
       fatPercentage: _fatPercentageTarget?.targetValue,
-      fatPercentageIsUpper: _fatPercentageTarget?.isUpper,
+      fatPercentageIsUpper: _fatPercentageTarget?.isUpper ? 'true' : 'false',
     });
   };
 
@@ -137,9 +142,9 @@ const SettingsPage = () => {
             <FormControl w="fit-content">
               <Select
                 fontSize="lg"
-                defaultValue={watch('weightIsUpper') ? 'true' : 'false'}
+                value={watch('weightIsUpper')}
                 onChange={(e) => {
-                  setValue('weightIsUpper', e.target.value === 'true');
+                  setValue('weightIsUpper', e.target.value);
                 }}
                 w="120px"
                 bg="white"
@@ -191,9 +196,9 @@ const SettingsPage = () => {
             <FormControl w="fit-content">
               <Select
                 fontSize="lg"
-                defaultValue={watch('fatPercentageIsUpper') ? 'true' : 'false'}
+                value={watch('fatPercentageIsUpper')}
                 onChange={(e) => {
-                  setValue('fatPercentageIsUpper', e.target.value === 'true');
+                  setValue('fatPercentageIsUpper', e.target.value);
                 }}
                 w="120px"
                 bg="white"
