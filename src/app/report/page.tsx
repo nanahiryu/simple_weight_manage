@@ -10,6 +10,7 @@ import { formatDateNumToString } from '@/function/day';
 import { createWeighLog, fetchWeighLogList, updateWeighLog } from '@/function/weighLog';
 import { useErrorToast } from '@/hooks/useErrorToast';
 import { useSuccessToast } from '@/hooks/useSuccessToast';
+import { useLoading } from '@/hooks/useLoading';
 
 const ReportPage = () => {
   const user = useAtomValue(userAtom);
@@ -27,11 +28,13 @@ const ReportPage = () => {
   });
   const errorToast = useErrorToast();
   const successToast = useSuccessToast();
+  const { isLoading, startLoading, endLoading } = useLoading();
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!user) return;
+      startLoading();
       const _weighDate = new Date(data.weighDate).getTime();
       const _newWeighLog = {
         id: '',
@@ -68,6 +71,8 @@ const ReportPage = () => {
         title: 'エラーが発生しました',
         description: error.message,
       });
+    } finally {
+      endLoading();
     }
   });
 
@@ -82,7 +87,7 @@ const ReportPage = () => {
             <Text fontSize="lg" fontWeight="semibold" color="gray.600">
               計測した日付
             </Text>
-            <Input type="date" size="md" variant="outline" {...register('weighDate')} />
+            <Input type="date" size="md" variant="outline" isDisabled={isLoading} {...register('weighDate')} />
             {errors.weighDate && <FormErrorMessage>{errors.weighDate.message}</FormErrorMessage>}
           </FormControl>
           <FormControl as={Flex} direction="column" w="full" isInvalid={!!errors.weight}>
@@ -92,6 +97,7 @@ const ReportPage = () => {
             <Input
               size="md"
               variant="outline"
+              isDisabled={isLoading}
               {...register('weight', {
                 required: '体重を入力してください',
                 valueAsNumber: true || '数値を入力してください',
@@ -107,6 +113,7 @@ const ReportPage = () => {
             <Input
               size="md"
               variant="outline"
+              isDisabled={isLoading}
               {...register('fatPercentage', {
                 required: '体脂肪率を入力してください',
                 valueAsNumber: true || '数値を入力してください',
@@ -115,7 +122,7 @@ const ReportPage = () => {
             />
             {errors.fatPercentage && <FormErrorMessage>{errors.fatPercentage.message}</FormErrorMessage>}
           </FormControl>
-          <Button w="full" colorScheme="teal" onClick={() => void onSubmit()}>
+          <Button w="full" colorScheme="teal" isLoading={isLoading} onClick={() => void onSubmit()}>
             送信
           </Button>
         </VStack>
