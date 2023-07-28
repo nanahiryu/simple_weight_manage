@@ -5,9 +5,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 * Next app router使いたい
 * chart.js使ってみたい
 
-## 
-`npm run dev`: localhostを立ち上げる
-`npm run firebase`: firebase emulaterを立ち上げる
+## コマンド
+* `npm run dev`: localhostを立ち上げる
+* `npm run firebase`: firebase emulaterを立ち上げる
 
 ## Deploy on Vercel
 
