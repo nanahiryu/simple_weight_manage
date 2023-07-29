@@ -81,7 +81,7 @@ const ReportPage = () => {
       <Text fontSize="2xl" fontWeight="semibold">
         体重・体脂肪率入力
       </Text>
-      <Flex align="center" direction="column">
+      <Flex as="form" align="center">
         <VStack w="full" spacing="40px">
           <FormControl as={Flex} direction="column" w="full" isInvalid={!!errors.weighDate}>
             <Text fontSize="lg" fontWeight="semibold" color="gray.600">
@@ -122,7 +122,7 @@ const ReportPage = () => {
             />
             {errors.fatPercentage && <FormErrorMessage>{errors.fatPercentage.message}</FormErrorMessage>}
           </FormControl>
-          <Button w="full" colorScheme="teal" isLoading={isLoading} onClick={() => void onSubmit()}>
+          <Button type="submit" w="full" colorScheme="teal" isLoading={isLoading} onClick={() => void onSubmit()}>
             送信
           </Button>
         </VStack>
