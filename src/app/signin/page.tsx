@@ -4,8 +4,8 @@ import { Button, Flex, Icon, Input, Text, VStack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { IconType } from 'react-icons';
-import { useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAtomValue } from 'jotai';
 
 import { loginWithEmail, loginWithGoogle, signupWithEmail } from '@/function/auth';
@@ -65,9 +65,11 @@ const SignInPage = () => {
     }
   };
 
-  if (user) {
-    redirect('/dashboard');
-  }
+  useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
+    }
+  }, [user]);
 
   return (
     <Flex align="center" justify="center" p="120px">
