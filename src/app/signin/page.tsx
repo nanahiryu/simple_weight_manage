@@ -4,7 +4,7 @@ import { Button, Flex, Icon, Input, Text, VStack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { IconType } from 'react-icons';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAtomValue } from 'jotai';
 
@@ -24,8 +24,11 @@ const SignInPage = () => {
   });
   const router = useRouter();
   const errorToast = useErrorToast();
-  const onSignUp = async () => {
+
+  const onSignUp = async (e: FormEvent) => {
+    console.log('sign up');
     try {
+      e.preventDefault();
       const data = getValues();
       await signupWithEmail(data.email, data.password);
       router.push('/dashboard');
@@ -38,8 +41,10 @@ const SignInPage = () => {
     }
   };
 
-  const onSignIn = async () => {
+  const onSignIn = async (e: FormEvent) => {
     try {
+      e.preventDefault();
+      console.log('sign in');
       const data = getValues();
       await loginWithEmail(data.email, data.password);
       router.push('/dashboard');
@@ -75,7 +80,7 @@ const SignInPage = () => {
     <Flex align="center" justify="center" p="120px">
       <Flex direction="column" w="80%" align="center">
         <CardBase direction="column" w="600px" my="20px">
-          <VStack my="40px" spacing="36px">
+          <VStack as="form" my="40px" spacing="36px">
             <Text fontSize="2xl" fontWeight="bold">
               {isSignIn ? 'Sign In Page' : 'Sign Up Page'}
             </Text>
@@ -90,11 +95,11 @@ const SignInPage = () => {
               <Input w="360px" variant="outline" {...register('password')} bg="white" />
             </VStack>
             {isSignIn ? (
-              <Button colorScheme="teal" onClick={() => void onSignIn()}>
+              <Button colorScheme="teal" type="submit" onClick={(e) => void onSignIn(e)}>
                 sign in with email
               </Button>
             ) : (
-              <Button colorScheme="teal" onClick={() => void onSignUp()}>
+              <Button colorScheme="teal" type="submit" onClick={(e) => void onSignUp(e)}>
                 sign up with email
               </Button>
             )}
