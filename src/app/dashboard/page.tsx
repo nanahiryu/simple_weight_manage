@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -51,7 +51,30 @@ const DashBoardPage = () => {
         <Text fontSize="lg" fontWeight="semibold">
           推移グラフ
         </Text>
-        <DynamicChartField />
+        <Tabs colorScheme="teal">
+          <TabList>
+            <Tab fontSize="md" fontWeight="semibold">
+              週
+            </Tab>
+            <Tab fontSize="md" fontWeight="semibold">
+              月
+            </Tab>
+            <Tab fontSize="md" fontWeight="semibold">
+              3ヶ月
+            </Tab>
+          </TabList>
+          <TabPanels p="0">
+            <TabPanel p="0">
+              <DynamicChartField rangeName="week" />
+            </TabPanel>
+            <TabPanel p="0">
+              <DynamicChartField rangeName="month" />
+            </TabPanel>
+            <TabPanel p="0">
+              <DynamicChartField rangeName="3month" />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </CardBase>
     </Flex>
   );
