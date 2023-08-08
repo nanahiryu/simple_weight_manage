@@ -116,7 +116,7 @@ const ChartField = (props: ChartFieldProps) => {
   };
 
   return (
-    <Flex align="center" justify="center" w="full" p="20px">
+    <Flex align="center" justify="center" w="full" p="20px" h="400px">
       <Line
         height={360}
         options={options}

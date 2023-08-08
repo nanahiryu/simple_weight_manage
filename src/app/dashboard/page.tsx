@@ -32,7 +32,7 @@ const DashBoardPage = () => {
   }, [user]);
 
   return (
-    <Flex direction="column" w="70%" py="60px" gap="40px">
+    <Flex direction="column" w="70%" py="40px" gap="40px">
       <Flex gap="40px">
         <CardBase direction="column" w="full" h="200px">
           <Text fontSize="lg" fontWeight="semibold">
@@ -51,7 +51,7 @@ const DashBoardPage = () => {
         <Text fontSize="lg" fontWeight="semibold">
           推移グラフ
         </Text>
-        <Tabs colorScheme="teal">
+        <Tabs isFitted colorScheme="teal">
           <TabList>
             <Tab fontSize="md" fontWeight="semibold">
               週
