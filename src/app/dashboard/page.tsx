@@ -51,7 +51,7 @@ const DashBoardPage = () => {
         <Text fontSize="lg" fontWeight="semibold">
           推移グラフ
         </Text>
-        <Tabs isFitted colorScheme="teal">
+        <Tabs id="range-tabs" isFitted colorScheme="teal">
           <TabList>
             <Tab fontSize="md" fontWeight="semibold">
               週
