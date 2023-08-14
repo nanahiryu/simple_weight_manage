@@ -13,7 +13,7 @@ import { Target } from '@/types/target';
 import { useLoading } from '@/hooks/useLoading';
 import { useErrorToast } from '@/hooks/useErrorToast';
 
-const SettingsPage = () => {
+const TargetSettingsPage = () => {
   const user = useAtomValue(userAtom);
   const [prevTargetList, setPrevTargetList] = useState<Target[]>([]);
   const [isWeightEditing, setIsWeightEditing] = useState<boolean>(true);
@@ -171,7 +171,7 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default TargetSettingsPage;
 
 interface TargetCardProps {
   isEditing: boolean;

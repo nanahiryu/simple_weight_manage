@@ -16,7 +16,7 @@ const DashBoardPage = () => {
   const [weightTarget, setWeightTarget] = useState<Target | undefined>(undefined);
   const [fatPercentageTarget, setFatPercentageTarget] = useState<Target | undefined>(undefined);
 
-  const DynamicChartField = dynamic(() => import('./chartField'), { ssr: false });
+  const DynamicChartField = dynamic(() => import('./_components/chartField'), { ssr: false });
 
   const fetchDisplayData = async () => {
     if (!user) return;

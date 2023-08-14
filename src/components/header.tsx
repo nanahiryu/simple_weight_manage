@@ -27,7 +27,7 @@ export const Header = () => {
           </Text>
         </Flex>
       </Link>
-      <Link href="/settings">
+      <Link href="/settings/target">
         <Flex align="center" gap="8px">
           <Icon as={MdSettings as IconType} boxSize="24px" color="white" />
           <Text fontSize="lg" fontWeight="bold" color="white">
