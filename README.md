@@ -8,6 +8,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## コマンド
 * `npm run dev`: localhostを立ち上げる
 * `npm run firebase`: firebase emulaterを立ち上げる
+* `npm run firebase:export`: dbの差分を`data/v0`にexportする
 
 ## Deploy on Vercel
 
