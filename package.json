@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "firebase": "firebase emulators:start"
+    "firebase": "firebase emulators:start --import=data/v0",
+    "firebase:export": "firebase emulators:export ./data/v0"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
@@ -17,6 +18,7 @@
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "chart.js": "^4.3.1",
     "eslint-config-next": "13.4.11",
     "firebase": "^10.1.0",
     "firebase-admin": "^11.10.1",
@@ -25,7 +27,9 @@
     "next": "13.4.11",
     "prettier": "^3.0.0",
     "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.2",
     "react-icons": "^4.10.1"
   },
   "devDependencies": {

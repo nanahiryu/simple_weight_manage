@@ -6,7 +6,7 @@ import { FaWeight } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
 
-import { logout } from '@/lib/auth';
+import { logout } from '@/function/auth';
 
 export const Header = () => {
   return (
@@ -27,7 +27,7 @@ export const Header = () => {
           </Text>
         </Flex>
       </Link>
-      <Link href="/settings">
+      <Link href="/settings/target">
         <Flex align="center" gap="8px">
           <Icon as={MdSettings as IconType} boxSize="24px" color="white" />
           <Text fontSize="lg" fontWeight="bold" color="white">

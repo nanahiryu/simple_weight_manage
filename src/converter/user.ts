@@ -1,22 +1,20 @@
-import { User } from "@/types/user";
-import { DocumentData, FirestoreDataConverter } from "firebase/firestore";
+import { DocumentData, FirestoreDataConverter } from 'firebase/firestore';
+
+import { User } from '@/types/user';
 
 export const UserConverter: FirestoreDataConverter<User> = {
   toFirestore(user: User): DocumentData {
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-    };
+    const _newDoc: Partial<User> = { ...user };
+    delete _newDoc.id;
+    return _newDoc;
   },
   fromFirestore(snapshot, options) {
     const data = snapshot.data(options);
     return {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      createdAt: data.createdAt,
+      id: snapshot.id,
+      name: data.name as string,
+      email: data.email as string,
+      createdAt: data.createdAt as number,
     };
   },
 };

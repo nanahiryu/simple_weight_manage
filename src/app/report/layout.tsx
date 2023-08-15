@@ -8,7 +8,9 @@ export default function ReportLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <Header />
-      <Flex pt="72px">{children}</Flex>
+      <Flex pt="72px" direction="column" align="center">
+        {children}
+      </Flex>
     </>
   );
 }
