@@ -26,7 +26,7 @@ const aerobicExerciseBase: Exercise = {
   description: 'トレーニングに関するメモ',
 };
 
-export const exerciseList: Exercise[] = [
+export const exerciseSeedList: Exercise[] = [
   {
     ...weightTrainingExerciseBase,
     id: 'benchPress',

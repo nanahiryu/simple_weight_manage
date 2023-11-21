@@ -1,6 +1,6 @@
 import { BodyPart } from '@/types/bodyPart';
 
-export const bodyParts: BodyPart[] = [
+export const bodyPartSeedList: BodyPart[] = [
   {
     id: 'arm',
     name: '腕',
