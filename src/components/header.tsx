@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, HStack, Icon, Spacer, Text } from '@chakra-ui/react';
-import { MdOutlineSpaceDashboard, MdSettings } from 'react-icons/md';
+import { MdFitnessCenter, MdOutlineSpaceDashboard, MdSettings } from 'react-icons/md';
 import { FaWeight } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
@@ -24,6 +24,14 @@ export const Header = () => {
           <Icon as={FaWeight as IconType} boxSize="20px" color="white" />
           <Text fontSize="lg" fontWeight="bold" color="white">
             体重・体脂肪率入力
+          </Text>
+        </Flex>
+      </Link>
+      <Link href="/training">
+        <Flex align="center" gap="8px">
+          <Icon as={MdFitnessCenter as IconType} boxSize="24px" color="white" />
+          <Text fontSize="lg" fontWeight="bold" color="white">
+            トレーニング
           </Text>
         </Flex>
       </Link>
