@@ -2,8 +2,8 @@ import { BodyPart } from '@/types/bodyPart';
 
 export const bodyParts: BodyPart[] = [
   {
-    id: 'upperArm',
-    name: '上腕',
+    id: 'arm',
+    name: '腕',
     color: 'teal.400',
   },
   {
