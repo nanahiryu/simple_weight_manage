@@ -15,6 +15,14 @@ const routerContents = [
     path: '/settings/weigh-logs',
     name: '体重・体脂肪率リスト',
   },
+  {
+    path: '/settings/body-part',
+    name: 'トレーニング部位',
+  },
+  {
+    path: '/settings/exercise',
+    name: 'トレーニング種目',
+  },
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {

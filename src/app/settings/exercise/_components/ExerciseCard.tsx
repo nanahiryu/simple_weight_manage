@@ -3,11 +3,13 @@
 import { Center, Flex, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useAtomValue } from 'jotai';
 
 import { CardBase } from '@/components/card';
-import { bodyPartSeedList } from '@/seed/bodyParts';
 import { LoadType } from '@/constants/loadType';
 import { BodyPart } from '@/types/bodyPart';
+import { fetchBodyPartList } from '@/function/bodyPart';
+import { userAtom } from '@/globalState/user';
 
 interface ExerciseCardProps {
   title: string;
@@ -21,13 +23,18 @@ interface ExerciseCardProps {
 
 const ExerciseCard = (props: ExerciseCardProps) => {
   const { title, imagePath, loadType, load, reps, sets, bodyPartsIdList } = props;
+  const user = useAtomValue(userAtom);
   const [bodyPartsList, setBodyPartsList] = useState<BodyPart[]>([]);
 
+  const refetchBodyPartList = async () => {
+    if (!user) return;
+    const _bodyPartList = await fetchBodyPartList(user.id);
+    const _includesBodyPartList = _bodyPartList.filter((bodyPart) => bodyPartsIdList.includes(bodyPart.id));
+    setBodyPartsList(_includesBodyPartList);
+  };
+
   useEffect(() => {
-    const bodyPartsList = bodyPartsIdList.map(
-      (bodyPartId) => bodyPartSeedList.find((bodyPart) => bodyPart.id === bodyPartId) ?? bodyPartSeedList[0],
-    );
-    setBodyPartsList(bodyPartsList);
+    void refetchBodyPartList();
   }, []);
 
   const loadTypeText = (() => {
@@ -51,7 +58,7 @@ const ExerciseCard = (props: ExerciseCardProps) => {
       <Center>
         <Image src={imagePath} alt="" width="240" height="100" />
       </Center>
-      <Flex direction="column" gap="8px">
+      <Flex direction="column" gap="4px">
         <Text fontSize="md" fontWeight="medium">
           {loadTypeText}
         </Text>
@@ -60,7 +67,7 @@ const ExerciseCard = (props: ExerciseCardProps) => {
         </Text>
         <Flex gap="8px">
           {bodyPartsList.map((bodyPart) => (
-            <Flex key={bodyPart.id} px="8px" borderRadius="md" bg="teal.400">
+            <Flex key={bodyPart.id} px="8px" borderRadius="md" bg={bodyPart.color}>
               <Text fontSize="md" fontWeight="normal" color="white">
                 {bodyPart.name}
               </Text>
