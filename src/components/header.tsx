@@ -45,7 +45,7 @@ export const Header = () => {
       </Link>
 
       <Spacer />
-      <Button color="teal.400" border="2px" borderColor="white" onClick={() => void logout()}>
+      <Button color="teal.400" onClick={() => void logout()}>
         ログアウト
       </Button>
     </HStack>
