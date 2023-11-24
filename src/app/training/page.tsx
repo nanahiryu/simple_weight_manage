@@ -57,7 +57,7 @@ const TrainingPage = () => {
           </InputLeftElement>
           <Input w="280px" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
         </InputGroup>
-        <CardBase w="280px" minH="200px" justify="start" direction="column" py="20px" gap="8px">
+        <CardBase w="280px" minH="200px" h="fit-content" justify="start" direction="column" py="20px" gap="8px">
           {/* FIXME: bodyPartsのcreate機能を作ったらseedから置き換える */}
           {bodyPartSeedList.map((content) => (
             <Flex
