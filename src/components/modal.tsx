@@ -68,7 +68,7 @@ export const EditModalRow = (props: EditModalRowProps) => {
 
 export const EditModalRowInput = forwardRef((props: InputProps, ref) => {
   return (
-    <Input w="200px" fontSize="sm" border="1px" borderColor="gray.200" bg="bg.body" rounded="lg" {...props} ref={ref} />
+    <Input w="200px" fontSize="sm" border="1px" borderColor="gray.600" bg="bg.body" rounded="lg" {...props} ref={ref} />
   );
 });
 EditModalRowInput.displayName = 'EditModalRowInput';
