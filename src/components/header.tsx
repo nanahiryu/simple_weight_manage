@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, HStack, Icon, Spacer, Text } from '@chakra-ui/react';
-import { MdOutlineSpaceDashboard, MdSettings } from 'react-icons/md';
+import { MdFitnessCenter, MdOutlineSpaceDashboard, MdSettings } from 'react-icons/md';
 import { FaWeight } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
@@ -27,6 +27,14 @@ export const Header = () => {
           </Text>
         </Flex>
       </Link>
+      <Link href="/training">
+        <Flex align="center" gap="8px">
+          <Icon as={MdFitnessCenter as IconType} boxSize="24px" color="white" />
+          <Text fontSize="lg" fontWeight="bold" color="white">
+            トレーニング
+          </Text>
+        </Flex>
+      </Link>
       <Link href="/settings/target">
         <Flex align="center" gap="8px">
           <Icon as={MdSettings as IconType} boxSize="24px" color="white" />
@@ -37,7 +45,7 @@ export const Header = () => {
       </Link>
 
       <Spacer />
-      <Button color="teal.400" border="2px" borderColor="white" onClick={() => void logout()}>
+      <Button color="teal.400" onClick={() => void logout()}>
         ログアウト
       </Button>
     </HStack>

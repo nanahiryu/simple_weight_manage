@@ -15,6 +15,18 @@ const routerContents = [
     path: '/settings/weigh-logs',
     name: '体重・体脂肪率リスト',
   },
+  {
+    path: '/settings/body-part',
+    name: 'トレーニング部位',
+  },
+  {
+    path: '/settings/exercise',
+    name: 'トレーニング種目',
+  },
+  {
+    path: '/settings/training-template',
+    name: 'トレーニングテンプレート',
+  },
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
@@ -23,7 +35,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
       <Header />
       <Flex pt="72px" direction="column" align="center">
         <Flex py="60px" px="40px" gap="40px" w="90%">
-          <CardBase w="320px" h="200px" justify="start" direction="column" py="20px" gap="8px">
+          <CardBase w="320px" h="fit-content" justify="start" direction="column" py="20px" gap="8px">
             {routerContents.map((content) => (
               <Link key={content.path} href={content.path}>
                 <Text

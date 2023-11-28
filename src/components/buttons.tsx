@@ -7,22 +7,22 @@ import { IconType } from 'react-icons';
 const editTypeObj = {
   edit: {
     icon: MdEdit as IconType,
-    color: 'accent.pink',
+    color: 'pink.500',
     text: '編集',
   },
   delete: {
     icon: MdDelete as IconType,
-    color: 'accent.red',
+    color: 'red.500',
     text: '削除',
   },
   finish: {
     icon: MdCheck as IconType,
-    color: 'evaluation.gray',
+    color: 'gray.500',
     text: '完了',
   },
   save: {
     icon: MdCheck as IconType,
-    color: 'evaluation.gray',
+    color: 'gray.500',
     text: '保存',
   },
 };
