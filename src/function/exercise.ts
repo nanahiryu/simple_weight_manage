@@ -21,7 +21,7 @@ export const createExercise = async (userId: string, exercise: Exercise) => {
 };
 
 export const updateExercise = async (userId: string, exercise: Exercise) => {
-  const _exerciseRef = doc(firestore, `users/${userId}/exercises`).withConverter(ExerciseConverter);
+  const _exerciseRef = doc(firestore, `users/${userId}/exercises/${exercise.id}`).withConverter(ExerciseConverter);
   await setDoc(_exerciseRef, exercise);
 };
 

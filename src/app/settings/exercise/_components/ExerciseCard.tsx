@@ -19,10 +19,11 @@ interface ExerciseCardProps {
   reps: number;
   sets: number;
   bodyPartsIdList: string[];
+  onClick?: () => void;
 }
 
 const ExerciseCard = (props: ExerciseCardProps) => {
-  const { title, imagePath, loadType, load, reps, sets, bodyPartsIdList } = props;
+  const { title, imagePath, loadType, load, reps, sets, bodyPartsIdList, onClick } = props;
   const user = useAtomValue(userAtom);
   const [bodyPartsList, setBodyPartsList] = useState<BodyPart[]>([]);
 
@@ -35,7 +36,7 @@ const ExerciseCard = (props: ExerciseCardProps) => {
 
   useEffect(() => {
     void refetchBodyPartList();
-  }, []);
+  }, [bodyPartsIdList, user]);
 
   const loadTypeText = (() => {
     switch (loadType) {
@@ -49,7 +50,18 @@ const ExerciseCard = (props: ExerciseCardProps) => {
   })();
 
   return (
-    <CardBase w="280px" direction="column" p="12px" gap="12px">
+    <CardBase
+      w="280px"
+      direction="column"
+      p="12px"
+      gap="12px"
+      onClick={onClick}
+      _hover={{
+        cursor: 'pointer',
+        boxShadow: 'sm',
+        transition: 'all 0.5s',
+      }}
+    >
       <Flex>
         <Text fontSize="lg" fontWeight="semibold">
           {title}

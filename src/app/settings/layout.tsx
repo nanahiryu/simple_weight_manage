@@ -23,6 +23,10 @@ const routerContents = [
     path: '/settings/exercise',
     name: 'トレーニング種目',
   },
+  {
+    path: '/settings/training-template',
+    name: 'トレーニングテンプレート',
+  },
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {

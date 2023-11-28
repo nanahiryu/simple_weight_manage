@@ -1,6 +1,17 @@
 'use client';
 
-import { Flex, Icon, Input, InputGroup, InputLeftElement, Select, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Center,
+  Flex,
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Select,
+  Spacer,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { MdAdd, MdSearch } from 'react-icons/md';
 import { IconType } from 'react-icons';
 import React, { useEffect, useState } from 'react';
@@ -9,23 +20,27 @@ import { useAtomValue } from 'jotai';
 import { Exercise } from '@/types/exercise';
 import { PrimaryButton } from '@/components/buttons';
 import { userAtom } from '@/globalState/user';
-import { fetchExerciseList } from '@/function/exercise';
+import { fetchExerciseList, insertSeedExercise } from '@/function/exercise';
 import { BodyPart } from '@/types/bodyPart';
 import { fetchBodyPartList } from '@/function/bodyPart';
 
 import ExerciseCard from './_components/ExerciseCard';
-import ExerciseCreateModal from './_components/ExerciseCreateModal';
+import ExerciseCrudModal from './_components/ExerciseCrudModal';
 
 const ExerciseSettingsPage = () => {
   const user = useAtomValue(userAtom);
   const [searchText, setSearchText] = useState<string>('');
-  const [selectedBodyPartId, setSelectedBodyPartId] = useState<string>('arm');
+  const [selectedBodyPartId, setSelectedBodyPartId] = useState<string>('all');
   const [allExerciseList, setAllExerciseList] = useState<Exercise[]>([]);
   const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>([]);
   const [searchedExerciseList, setSearchedExerciseList] = useState<Exercise[]>([]);
   const [bodyPartList, setBodyPartList] = useState<BodyPart[]>([]);
+  const [type, setType] = useState<'create' | 'edit'>('create');
+  const [prevExercise, setPrevExercise] = useState<Exercise | null>(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const isEmulating = process.env.NEXT_PUBLIC_ENV === 'local';
 
   const refetchBodyPartList = async () => {
     if (!user) return;
@@ -40,6 +55,10 @@ const ExerciseSettingsPage = () => {
   };
 
   const filterExerciseList = (exerciseList: Exercise[], bodyPartId: string) => {
+    if (bodyPartId === 'all') {
+      setFilteredExerciseList(exerciseList);
+      return;
+    }
     const _filteredExerciseList = exerciseList.filter((exercise) => exercise.bodyPartsIdList.includes(bodyPartId));
     setFilteredExerciseList(_filteredExerciseList);
   };
@@ -52,6 +71,24 @@ const ExerciseSettingsPage = () => {
       const _searchedExerciseList = exerciseList.filter((exercise) => exercise.name.includes(text));
       setSearchedExerciseList(_searchedExerciseList);
     }
+  };
+
+  const onClickAddSeedExercise = async () => {
+    if (!user) return;
+    await insertSeedExercise(user.id);
+    await refetchExerciseList();
+  };
+
+  const onClickCreateExercise = () => {
+    setType('create');
+    setPrevExercise(null);
+    onOpen();
+  };
+
+  const onClickEditExercise = (exercise: Exercise) => {
+    setType('edit');
+    setPrevExercise(exercise);
+    onOpen();
   };
 
   useEffect(() => {
@@ -73,14 +110,23 @@ const ExerciseSettingsPage = () => {
   return (
     <>
       <Flex direction="column" px="40px" gap="20px" w="full" h="full">
-        <Flex justify="space-between">
+        <Flex>
           <Text fontSize="2xl" fontWeight="semibold">
             トレーニング種目
           </Text>
-          <PrimaryButton onClick={onOpen} gap="8px">
-            <Icon as={MdAdd as IconType} boxSize="20px" />
-            <Text fontSize="sm">追加</Text>
-          </PrimaryButton>
+          <Spacer />
+          <Flex gap="8px">
+            {isEmulating && (
+              <PrimaryButton onClick={() => void onClickAddSeedExercise()} gap="8px">
+                <Icon as={MdAdd as IconType} boxSize="20px" />
+                <Text fontSize="sm">シード追加</Text>
+              </PrimaryButton>
+            )}
+            <PrimaryButton onClick={onClickCreateExercise} gap="8px">
+              <Icon as={MdAdd as IconType} boxSize="20px" />
+              <Text fontSize="sm">追加</Text>
+            </PrimaryButton>
+          </Flex>
         </Flex>
         <Flex gap="24px" w="full">
           <Flex align="center" gap="8px">
@@ -88,6 +134,9 @@ const ExerciseSettingsPage = () => {
               部位
             </Text>
             <Select onChange={(e) => setSelectedBodyPartId(e.target.value)} w="200px">
+              <option key="all" value="all">
+                全て
+              </option>
               {bodyPartList.map((content) => (
                 <option key={content.id} value={content.id}>
                   {content.name}
@@ -108,25 +157,36 @@ const ExerciseSettingsPage = () => {
           </Flex>
         </Flex>
         <Flex w="full" h="full" wrap="wrap" gap="20px">
-          {searchedExerciseList.map((exercise) => (
-            <ExerciseCard
-              key={exercise.id}
-              title={exercise.name}
-              imagePath={exercise.imagePath}
-              loadType={exercise.loadType}
-              load={exercise.currentLoad}
-              reps={exercise.currentReps}
-              sets={exercise.currentSets}
-              bodyPartsIdList={exercise.bodyPartsIdList}
-            />
-          ))}
+          {searchedExerciseList.length !== 0 ? (
+            searchedExerciseList.map((exercise) => (
+              <ExerciseCard
+                key={exercise.id}
+                title={exercise.name}
+                imagePath={exercise.imagePath}
+                loadType={exercise.loadType}
+                load={exercise.currentLoad}
+                reps={exercise.currentReps}
+                sets={exercise.currentSets}
+                bodyPartsIdList={exercise.bodyPartsIdList}
+                onClick={() => onClickEditExercise(exercise)}
+              />
+            ))
+          ) : (
+            <Center w="full" px="40px" py="120px">
+              <Text fontSize="lg" fontWeight="semibold">
+                データがありません
+              </Text>
+            </Center>
+          )}
         </Flex>
       </Flex>
-      <ExerciseCreateModal
+      <ExerciseCrudModal
         isOpen={isOpen}
         onClose={onClose}
+        type={type}
         exerciseList={allExerciseList}
         refetchExerciseList={refetchExerciseList}
+        prevExercise={prevExercise}
       />
     </>
   );
