@@ -2,9 +2,55 @@
 
 import { Flex, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 
 import { YearMonth, YearMonthPaging } from '@/components/paging';
-import Calendar from '@/components/calendar';
+import { TrainingLog } from '@/types/trainingLog';
+
+import TrainingCalendar from './_components/trainingCalendar';
+
+const trainingLogSeedList: TrainingLog[] = [
+  {
+    id: '1',
+    name: '腕のトレーニング',
+    description: '腕のトレーニングです。',
+    trainingDate: dayjs('2023-11-01').valueOf(),
+    exerciseMenuList: [
+      {
+        exerciseId: 'benchPress',
+        load: 100,
+        reps: 10,
+        sets: 3,
+      },
+      {
+        exerciseId: 'dumbbellCurl',
+        load: 100,
+        reps: 10,
+        sets: 3,
+      },
+    ],
+  },
+  {
+    id: '2',
+    name: '背中のトレーニング part2',
+    description: '背中のトレーニングです。',
+    trainingDate: dayjs('2023-11-02').valueOf(),
+    exerciseMenuList: [
+      {
+        exerciseId: 'deadLift',
+        load: 100,
+        reps: 10,
+        sets: 3,
+      },
+      {
+        exerciseId: 'pullUp',
+        load: 100,
+        reps: 10,
+        sets: 3,
+      },
+    ],
+  },
+];
 
 const TrainingPage = () => {
   const [selectedYearMonth, setSelectedYearMonth] = useState<YearMonth>({
@@ -21,7 +67,7 @@ const TrainingPage = () => {
       </Flex>
       <Flex w="full" direction="column" align="center" gap="12px">
         <YearMonthPaging yearMonth={selectedYearMonth} setYearMonth={setSelectedYearMonth} />
-        <Calendar yearMonth={selectedYearMonth} />
+        <TrainingCalendar yearMonth={selectedYearMonth} trainingLogList={trainingLogSeedList} />
       </Flex>
     </Flex>
   );
