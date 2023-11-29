@@ -26,8 +26,13 @@ import { EditModal, EditModalRow, EditModalRowInput } from '@/components/modal';
 import { useSuccessToast } from '@/hooks/useSuccessToast';
 import { useLoading } from '@/hooks/useLoading';
 import { useErrorToast } from '@/hooks/useErrorToast';
-import { YearMonth } from '@/components/paging';
-import { YearMonthPaging } from '@/components/paging';
+
+import { YearMonthPaging } from './_components/paging';
+
+export interface YearMonth {
+  year: number;
+  month: number;
+}
 
 const LogsSettingsPage = () => {
   const user = useAtomValue(userAtom);
