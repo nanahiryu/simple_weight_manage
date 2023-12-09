@@ -10,11 +10,12 @@ import { Exercise } from '@/types/exercise';
 interface TrainingTemplateCardProps {
   name: string;
   exerciseIdList: string[];
-  onClick: () => void;
+  onClick?: () => void;
+  onClickCopy?: (title: string, exerciseList: Exercise[]) => void;
 }
 
 const TrainingTemplateCard = (props: TrainingTemplateCardProps) => {
-  const { name, exerciseIdList, onClick } = props;
+  const { name, exerciseIdList, onClick, onClickCopy } = props;
   const user = useAtomValue(userAtom);
   const [exerciseList, setExerciseList] = useState<Exercise[]>([]);
 
@@ -23,6 +24,15 @@ const TrainingTemplateCard = (props: TrainingTemplateCardProps) => {
     const _exerciseList = await fetchExerciseList(user.id);
     const _includesExerciseList = _exerciseList.filter((exercise) => exerciseIdList.includes(exercise.id));
     setExerciseList(_includesExerciseList);
+  };
+
+  const onClickCard = () => {
+    if (onClick) {
+      onClick();
+    }
+    if (onClickCopy) {
+      onClickCopy(name, exerciseList);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +45,7 @@ const TrainingTemplateCard = (props: TrainingTemplateCardProps) => {
       w="full"
       direction="column"
       gap="8px"
-      onClick={onClick}
+      onClick={onClickCard}
       _hover={{
         cursor: 'pointer',
         boxShadow: 'sm',

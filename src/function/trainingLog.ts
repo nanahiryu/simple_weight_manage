@@ -13,7 +13,7 @@ export const fetchTrainingLogList = async (userId: string): Promise<TrainingLog[
   return _trainingLogList;
 };
 
-export const findTrainingLogListByDate = async (userId: string, date: number): Promise<TrainingLog[] | null> => {
+export const findTrainingLogListByDate = async (userId: string, date: number): Promise<TrainingLog | null> => {
   const _trainingLogRef = collection(firestore, `users/${userId}/trainingLogs`).withConverter(TrainingLogConverter);
   const q = query(_trainingLogRef, where('trainingDate', '==', date));
   const _trainingLogSnapshot = await getDocs(q);
@@ -23,7 +23,7 @@ export const findTrainingLogListByDate = async (userId: string, date: number): P
   const _trainingLogList = _trainingLogSnapshot.docs.map((doc) => {
     return doc.data();
   });
-  return _trainingLogList;
+  return _trainingLogList[0];
 };
 
 export const createTrainingLog = async (userId: string, trainingLog: TrainingLog) => {
