@@ -16,3 +16,16 @@ export const displayLoadType = (name: string): (typeof LOAD_TYPE)[LoadType] | ''
   if (loadType) return loadType.displayName;
   return '';
 };
+
+export const displayLoadTypeUnit = (name: string): string => {
+  switch (name) {
+    case 'weight':
+      return 'kg';
+    case 'distance':
+      return 'km';
+    case 'time':
+      return 'min';
+    default:
+      return '';
+  }
+};
