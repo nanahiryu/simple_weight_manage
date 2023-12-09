@@ -55,11 +55,11 @@ const ExerciseMenuCard = (props: ExerciseMenuCardProps) => {
           <Text fontSize="md" fontWeight="medium" color="gray.600">
             負荷
           </Text>
-          <FormControl isInvalid={!!errors?.load}>
+          <FormControl isInvalid={!!errors?.load} w="fit-content">
             <EditRowInput
               w="80px"
               size="sm"
-              {...register(`exerciseMenuList.${index}.load` as const, {
+              {...register(`exerciseMenuList.${index}.load`, {
                 required: true,
                 min: 0.001,
               })}
@@ -73,11 +73,11 @@ const ExerciseMenuCard = (props: ExerciseMenuCardProps) => {
           <Text fontSize="md" fontWeight="medium" color="gray.600">
             回数
           </Text>
-          <FormControl isInvalid={!!errors?.reps}>
+          <FormControl isInvalid={!!errors?.reps} w="fit-content">
             <EditRowInput
               w="80px"
               size="sm"
-              {...register(`exerciseMenuList.${index}.reps` as const, {
+              {...register(`exerciseMenuList.${index}.reps`, {
                 required: true,
                 min: 1,
               })}
@@ -91,11 +91,11 @@ const ExerciseMenuCard = (props: ExerciseMenuCardProps) => {
           <Text fontSize="md" fontWeight="medium" color="gray.600">
             セット
           </Text>
-          <FormControl isInvalid={!!errors?.sets}>
+          <FormControl isInvalid={!!errors?.sets} w="fit-content">
             <EditRowInput
               w="80px"
               size="sm"
-              {...register(`exerciseMenuList.${index}.sets` as const, {
+              {...register(`exerciseMenuList.${index}.sets`, {
                 required: true,
                 min: 1,
               })}
