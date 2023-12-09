@@ -4,9 +4,10 @@ import { Flex, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 import { YearMonth, YearMonthPaging } from '@/components/paging';
-import Calendar from '@/components/calendar';
 
-const TrainingPage = () => {
+import TrainingCalendar from './_components/trainingCalendar';
+
+const TrainingLogPage = () => {
   const [selectedYearMonth, setSelectedYearMonth] = useState<YearMonth>({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -21,10 +22,10 @@ const TrainingPage = () => {
       </Flex>
       <Flex w="full" direction="column" align="center" gap="12px">
         <YearMonthPaging yearMonth={selectedYearMonth} setYearMonth={setSelectedYearMonth} />
-        <Calendar yearMonth={selectedYearMonth} />
+        <TrainingCalendar yearMonth={selectedYearMonth} />
       </Flex>
     </Flex>
   );
 };
 
-export default TrainingPage;
+export default TrainingLogPage;

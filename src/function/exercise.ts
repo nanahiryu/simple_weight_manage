@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 
 import { firestore } from '@/firebase/client';
 import { ExerciseConverter } from '@/converter/exercise';
@@ -13,6 +13,16 @@ export const fetchExerciseList = async (userId: string) => {
     return doc.data();
   });
   return _exerciseList;
+};
+
+export const findExerciseById = async (userId: string, exerciseId: string) => {
+  const _exerciseRef = doc(firestore, `users/${userId}/exercises/${exerciseId}`).withConverter(ExerciseConverter);
+  const _exerciseSnapshot = await getDoc(_exerciseRef);
+  if (!_exerciseSnapshot.exists()) {
+    return null;
+  }
+  const _exercise = _exerciseSnapshot.data();
+  return _exercise;
 };
 
 export const createExercise = async (userId: string, exercise: Exercise) => {

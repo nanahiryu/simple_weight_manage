@@ -10,8 +10,8 @@ import { userAtom } from '@/globalState/user';
 import { TrainingTemplate } from '@/types/trainingTemplate';
 import { PrimaryButton } from '@/components/buttons';
 import { fetchTrainingTemplateList, insertSeedTrainingTemplate } from '@/function/trainingTemplate';
+import TrainingTemplateCard from '@/components/trainingTemplateCard';
 
-import TrainingTemplateCard from './_components/trainingTemplateCard';
 import TrainingTemplateCrudModal from './_components/trainingTemplateCrudModal';
 
 export interface YearMonth {

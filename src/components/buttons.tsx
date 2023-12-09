@@ -62,7 +62,7 @@ export const PrimaryButton = forwardRef((props: ButtonProps, ref) => {
       px="16px"
       py="12px"
       colorScheme="teal"
-      fontSize="xs"
+      fontSize="sm"
       fontWeight="bold"
       {...props}
       ref={ref}
@@ -79,7 +79,7 @@ export const SecondaryButton = forwardRef((props: ButtonProps, ref) => {
       px="16px"
       py="12px"
       color="gray.400"
-      fontSize="xs"
+      fontSize="sm"
       fontWeight="bold"
       border="1px"
       borderColor="gray.400"
