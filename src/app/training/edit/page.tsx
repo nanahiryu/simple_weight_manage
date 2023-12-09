@@ -6,7 +6,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputProps,
   Select,
   Tab,
   TabList,
@@ -17,7 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
-import { forwardRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { MdArrowBack, MdOutlineAdd, MdSearch } from 'react-icons/md';
 import { FieldErrors, FormProvider, useFieldArray, useForm } from 'react-hook-form';
@@ -37,6 +36,8 @@ import { useSuccessToast } from '@/hooks/useSuccessToast';
 import TrainingTemplateCard from '@/components/trainingTemplateCard';
 
 import ExerciseMenuCard from './_components/exerciseMenuCard';
+import EditRow from '../_components/EditRow';
+import EditRowInput from '../_components/EditRowInput';
 
 export interface ExerciseMenuForm {
   exerciseId: string;
@@ -430,26 +431,3 @@ const TrainingLogEditPage = () => {
 };
 
 export default TrainingLogEditPage;
-
-interface EditRowProps {
-  label: string;
-  children: React.ReactNode;
-}
-
-export const EditRow = (props: EditRowProps) => {
-  return (
-    <Flex w="full" px="16px" py="8px" gap="4px" direction="column">
-      <Text minW="max-content" fontSize="md" fontWeight="bold" color="text.lightblack">
-        {props.label}
-      </Text>
-      {props.children}
-    </Flex>
-  );
-};
-
-export const EditRowInput = forwardRef((props: InputProps, ref) => {
-  return (
-    <Input w="200px" fontSize="sm" border="1px" borderColor="gray.200" bg="bg.body" rounded="lg" {...props} ref={ref} />
-  );
-});
-EditRowInput.displayName = 'EditModalRowInput';

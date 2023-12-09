@@ -9,7 +9,8 @@ import { Exercise } from '@/types/exercise';
 import { EditButton } from '@/components/buttons';
 import { displayLoadTypeUnit } from '@/constants/loadType';
 
-import { EditRowInput, ExerciseMenuForm } from '../page';
+import { ExerciseMenuForm } from '../page';
+import EditRowInput from '../../_components/EditRowInput';
 
 interface ExerciseMenuCardProps {
   exerciseMenu: ExerciseMenuForm;
